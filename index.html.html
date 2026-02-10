@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question ❤️</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffeef2;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            z-index: 10;
+            max-width: 400px;
+            width: 90%;
+        }
+        video {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+        h1 { color: #ff4d6d; font-size: 1.6rem; margin: 15px 0; line-height: 1.4; }
+        .buttons { 
+            margin-top: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            gap: 15px;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        #yesBtn { background-color: #ff4d6d; color: white; }
+        #noBtn { background-color: #ddd; color: #555; }
+        .hidden { display: none; }
+
+        .heart {
+            position: absolute;
+            top: -10%;
+            color: #ff4d6d;
+            font-size: 24px;
+            user-select: none;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+        @keyframes fall {
+            to { transform: translateY(110vh); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="questionScreen" class="container">
+        <video autoplay loop muted playsinline>
+            <source src="valentine.mp4.mp4" type="video/mp4">
+        </video>
+        <h1 id="mainText">Will you be my Valentine? ❤️</h1>
+        <div class="buttons">
+            <button id="yesBtn" onclick="showLove()">Yes!</button>
+            <button id="noBtn" onclick="handleNo()">No</button>
+        </div>
+    </div>
+
+    <div id="successScreen" class="container hidden">
+        <h1>You made the best choice baby! ❤️</h1>
+        <video autoplay loop muted playsinline>
+            <source src="Us.mp4.mp4" type="video/mp4">
+        </video>
+        <h1 style="font-size: 1.8rem;">You go girl! ✨</h1>
+    </div>
+
+    <script>
+        const noMessages = ["Are you sure?", "Really? 🥺", "Think again...", "Please? 🐶", "I'm gonna cry... 😭", "Click Yes! ❤️"];
+        let messageIndex = 0;
+
+        function handleNo() {
+            const noBtn = document.getElementById('noBtn');
+            const mainText = document.getElementById('mainText');
+            const yesBtn = document.getElementById('yesBtn');
+
+            mainText.innerHTML = noMessages[messageIndex];
+            messageIndex = (messageIndex + 1) % noMessages.length;
+
+            const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            yesBtn.style.fontSize = (currentSize + 12) + 'px';
+            yesBtn.style.padding = (currentSize + 6) + 'px';
+        }
+
+        function showLove() {
+            document.getElementById('questionScreen').classList.add('hidden');
+            document.getElementById('successScreen').classList.remove('hidden');
+            setInterval(createHeart, 200);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 2 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 4000);
+        }
+    </script>
+</body>
+</html>
